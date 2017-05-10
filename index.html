@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="turtleFacts">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <title>Turtle Facts and Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Bootstrap css and my own css -->
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   
+    <div class="container">
+        <div class="page-header">
+            <h1>Turtle Facts Quiz</h1>
+            <h3>
+                Learn about all the turtles below before you decide to take on the 
+                <strong>TURTLE QUIZ</strong>
+            </h3>
+        </div>
+	
+	<!-- ng-controller tells the div to controll that specific part which is under listctrl -->
+ 	<div ng-controller="listCtrl as list" ng-hide="list.quizMetrics.quizActive"> <!-- ng-hide does the hide property work  -->
+ 		 <form class="form-inline well well-sm clearfix">
+ 		 	<span class="glyphicon glyphicon-search"></span>
+ 		 	<!-- ng-modal does is to bind the input field with vm.search in list.js -->
+ 		 	<input type="text" placeholder="Search..." class="form-control" ng-model="list.search">
+ 		 	<button class="btn btn-warning pull-right" ng-click="list.activateQuiz()"><strong>Start Quiz</strong></button>
+ 		 </form>
+ 	<!-- list.data is the contrller in list defined as vm.data -->
+ 		<!-- <p ng-repeat="turtle in list.data">{{turtle.type}}</p>  -->
+ 		<div class="row">
+ 			<div class="col-sm-6" ng-repeat="turtle in list.data | filter:{type:list.search}"> <!-- what this filter does is.. we are going to loop through all of the list.data and every iteration is then going to be filtered by list.search term and if some search terem is found inside of list.data then the filter will return that and allowes that to be printed out and if not in data the filter will not allow to pass through -->
+ 				<div class="well well-sm well-box">
+ 					<div class="row">
+ 						<div class="col-md-6">
+ 							<img ng-src="{{turtle.image_url}}" class="img-rounded img-responsive well-image" >
+ 						</div>
+ 						<div class="col-md-6">
+ 							<h4>{{turtle.type}}</h4>
+ 							<p><strong>Locations: </strong>{{turtle.locations}}</p>
+ 							<p><strong>Size: </strong>{{turtle.size}}</p>
+ 							<p><strong>Average Lifespan: </strong>{{turtle.lifespan}}</p>
+ 							<p><strong>Diet: </strong>{{turtle.diet}}</p>
+ 							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#turtle-info" ng-click="list.changeActiveTurtle(turtle)" >Learn More</button>
+ 						</div>
+ 					</div>
+ 				
+ 			</div>
+ 		</div>
+
+ 		<div class="modal" id="turtle-info">
+ 			<div class="modal-dialog">
+ 				<div class="modal-content">
+ 					<div class="modal-header">
+ 						<h2>{{list.activeTurtle.type}}</h2>
+ 					</div>
+ 					<div class="modal-body">
+ 						<div class="row">
+ 							<div class="col-xs-8 col-xs-offset-2">
+ 								<img ng-src="{{list.activeTurtle.image_url}}" class="img-rounded img-responsive">
+ 							</div>
+ 						</div>
+ 						<div class="row top-buffer">
+ 							<div class="col-md-6">
+ 								<p><strong>Locations: </strong>{{list.activeTurtle.locations}}</p>
+	 							<p><strong>Size: </strong>{{list.activeTurtle.size}}</p>
+	 							<p><strong>Average Lifespan: </strong>{{list.activeTurtle.lifespan}}</p>
+	 							<p><strong>Diet: </strong>{{list.activeTurtle.diet}}</p>
+ 							</div>
+
+ 							<div class="top-buffer col-xs-12">
+ 								<p><strong>Description: </strong>{{list.activeTurtle.description}}</p>
+ 								<button class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+ 							</div>
+ 						</div>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 	</div>
+    </div>
+    <div ng-controller="quizCtrl as quiz" ng-show="quiz.quizMetrics.quizActive">
+ 
+ 		<h1>HELLO THERE</h1>
+ 	</div>
+ 	</div>
+ 
+    <!-- third party js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+   
+ 
+    <!-- Our application scripts -->
+    <script type="text/javascript" src="app.js"></script>
+    
+   
+    <script type="text/javascript" src="controllers/list.js"></script>
+    <script type="text/javascript" src="controllers/quiz.js"></script>
+    <script type="text/javascript" src="factories/quizMetrics.js"></script>
+ 
+ 
+</body>
+</html>
